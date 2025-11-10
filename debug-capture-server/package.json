@@ -1,0 +1,21 @@
+{
+  "name": "capture-server",
+  "version": "1.0.0",
+  "description": "Server to capture and save JSON data from POST requests",
+  "type": "module",
+  "main": "captureToFile.js",
+  "scripts": {
+    "start": "node captureToFile.js",
+    "dev": "node --watch captureToFile.js",
+    "stream": "node streamData.js",
+    "stream:dev": "node --watch streamData.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "socket.io": "^4.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

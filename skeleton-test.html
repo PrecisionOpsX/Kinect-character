@@ -1,0 +1,83 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>staticgulp</title>
+
+</head>
+
+<body>
+
+  <canvas id="bodyCanvas" width="512" height="424"></canvas>
+  <script type="module">
+    import { io } from "https://cdn.socket.io/4.8.1/socket.io.esm.min.js";
+
+    var socket = io('http://localhost:3002/');
+    var canvas = document.getElementById('bodyCanvas');
+    var ctx = canvas.getContext('2d');
+    var colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff'];
+
+    // handstate circle size
+    var HANDSIZE = 20;
+
+    // closed hand state color
+    var HANDCLOSEDCOLOR = "red";
+
+    // open hand state color
+    var HANDOPENCOLOR = "green";
+
+    // lasso hand state color
+    var HANDLASSOCOLOR = "blue";
+
+    function updateHandState(handState, jointPoint) {
+      switch (handState) {
+        case 3:
+          drawHand(jointPoint, HANDCLOSEDCOLOR);
+          break;
+
+        case 2:
+          drawHand(jointPoint, HANDOPENCOLOR);
+          break;
+
+        case 4:
+          drawHand(jointPoint, HANDLASSOCOLOR);
+          break;
+      }
+    }
+
+    function drawHand(jointPoint, handColor) {
+      // draw semi transparent hand cicles
+      ctx.globalAlpha = 0.75;
+      ctx.beginPath();
+      ctx.fillStyle = handColor;
+      ctx.arc(jointPoint.depthX * 512, jointPoint.depthY * 424, HANDSIZE, 0, Math.PI * 2, true);
+      ctx.fill();
+      ctx.closePath();
+      ctx.globalAlpha = 1;
+    }
+
+    socket.on('file-data', function (body) {
+      console.log(body);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      var index = 0;
+
+      for (var jointType in body.data) {
+        var joint = body.data[jointType];
+        ctx.fillStyle = colors[index];
+        ctx.fillRect(joint.depthX * 512, joint.depthY * 424, 10, 10);
+      }
+      //draw hand states
+      //updateHandState(body.leftHandState, body.data[7]);
+      //updateHandState(body.rightHandState, body.data[11]);
+      index++;
+    });
+    socket.emit("stream-files");
+
+  </script>
+
+</body>
+
+</html>
