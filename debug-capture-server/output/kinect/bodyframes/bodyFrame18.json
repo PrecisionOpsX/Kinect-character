@@ -1,0 +1,34 @@
+{
+  "bodies": [
+    {
+      "bodyIndex": 0,
+      "tracked": false
+    },
+    {
+      "bodyIndex": 1,
+      "tracked": false
+    },
+    {
+      "bodyIndex": 2,
+      "tracked": false
+    },
+    {
+      "bodyIndex": 3,
+      "tracked": false
+    },
+    {
+      "bodyIndex": 4,
+      "tracked": false
+    },
+    {
+      "bodyIndex": 5,
+      "tracked": false
+    }
+  ],
+  "floorClipPlane": {
+    "x": 0.018362535163760185,
+    "y": 0.985456109046936,
+    "z": 0.16893532872200012,
+    "w": 0
+  }
+}
